@@ -1,0 +1,35 @@
+  *******************************************
+  *                                         *
+  *        W E L C O M E  to  R O O T       *
+  *                                         *
+  *   Version   5.34/38     12 March 2018   *
+  *                                         *
+  *  You are welcome to visit our Web site  *
+  *          http://root.cern.ch            *
+  *                                         *
+  *******************************************
+
+ROOT 5.34/38 (v5-34-38@v5-34-38, Mar 12 2018, 15:49:39 on linuxx8664gcc)
+
+CINT/ROOT C/C++ Interpreter version 5.18.00, July 2, 2010
+Type ? for help. Commands must be C++ statements.
+Enclose multiple statements between { }.
+
+Processing newlisec.C...
+Warning: Return value of void newlisec() ignored newlisec.C:80:
+thick=150
+thick=160
+thick=170
+thick=180
+thick=190
+thick=200
+thick=210
+thick=220
+thick=230
+thick=240
+thick=250
+thick=260
+thick=270
+thick=280
+thick=290
+thick=300
