@@ -38,6 +38,7 @@ void hit()
     TFile *outFile = new TFile(outFileName, "recreate");
     TTree *hitTree = new TTree("tree", "tree");
 
+    Int_t n_event = 0;
     // Define hit structure variables
     // Right x_strip silicon
     Double_t Rxa[5] = {0.};      // Raw Amplitude (Top 5)
@@ -92,6 +93,8 @@ void hit()
     Double_t ybd = 0.;
 
     // Create branches
+    hitTree->Branch("n_event", &n_event, "n_events/D");
+
     // Right x_strip silicon
     hitTree->Branch("Rxa", Rxa, "Rxa[5]/D");
     hitTree->Branch("Rxc", Rxc, "Rxc[5]/D");
@@ -198,7 +201,7 @@ void hit()
     for (Long64_t entry=0; entry<entries; entry++)
     {
         fch->GetEntry(entry);
-        
+
         if(entry%1000000==0)
         // std::cout<< "Entry: " << entry <<"\n";
         
@@ -511,6 +514,7 @@ void hit()
         
         // 填充树
         hitTree->Fill();
+        n_event++;
     }
     // 保存并关闭文件
     hitTree->Write();
