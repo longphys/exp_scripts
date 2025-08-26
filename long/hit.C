@@ -1,5 +1,7 @@
-
+#include "TChain.h"
+#include "TFile.h"
 #include <algorithm>
+#include <iostream>
 
 using std::min;
 using std::swap;
@@ -32,8 +34,8 @@ void hit()
 
     // Create a new ROOT file
     // TString outFileName = TString::Format("~/data/25e04/10Be/hit/run25_%02d_hit.root", start);
-    TString outFileName = TString::Format("~/data/25e04/10Be/hit/run_16_25_hit.root", start);
-    TFile *outFile = new TFile(outFileName, "RECREATE");
+    TString outFileName = "~/data/25e04/10Be/hit/run_16_25_hit.root";
+    TFile *outFile = new TFile(outFileName, "recreate");
     TTree *hitTree = new TTree("tree", "tree");
 
     // Define hit structure variables
@@ -197,7 +199,8 @@ void hit()
     {
         fch->GetEntry(entry);
         
-        // if(entry%1000000==0)cout<< "Entry: " << entry <<"\n";
+        if(entry%1000000==0)
+        // std::cout<< "Entry: " << entry <<"\n";
         
         /********hit 结构 35°**************/
         // 重置hit计数器
@@ -332,6 +335,7 @@ void hit()
         Rea_hits = tmp_Rea_hits;
         Lea_hits = tmp_Lea_hits;
 
+        // std::cout << "SEG FAULT CHECK\n";
         for (int i = 0; i < min(5, Rxa_hits); i++) 
         {
             // 找出当前最大能量的hit
