@@ -8,29 +8,32 @@ using std::swap;
 
 void hit()
 {
-    int start = 0;
-    // int stop = start;
-    int stop = 2;
-    TChain *fch;
-    fch = new TChain("AnalysisxTree");
-    for (int i= start; i<=stop; i++){
-    TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run25_%02d.root" , i);
-    fch->AddFile(fileName.Data());
-    }
+    TChain *fch = new TChain("AnalysisxTree");
 
-    start = 16;
-    stop = 21;
-    for (int i= start; i<=stop; i++){
-    TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , i);
-    fch->AddFile(fileName.Data());
-    }
+    // int start = 0;
+    // // int stop = start;
+    // int stop = 2;
+    // for (int i= start; i<=stop; i++){
+    // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run25_%02d.root" , i);
+    // fch->AddFile(fileName.Data());
+    // }
 
-    start = 22;
-    stop = 24;
-    for (int i= start; i<=stop; i++){
-    TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_00.root" , i);
-    fch->AddFile(fileName.Data());
-    }
+    // start = 16;
+    // stop = 21;
+    // for (int i= start; i<=stop; i++){
+    // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , i);
+    // fch->AddFile(fileName.Data());
+    // }
+
+    // start = 22;
+    // stop = 24;
+    // for (int i= start; i<=stop; i++){
+    // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_00.root" , i);
+    // fch->AddFile(fileName.Data());
+    // }
+
+    // fch->AddFile("~/data/25e04/run25_00.root");
+    fch->Add("~/data/25e04/run25_00.root");
 
     // Create a new ROOT file
     // TString outFileName = TString::Format("~/data/25e04/10Be/hit/run25_%02d_hit.root", start);
@@ -93,7 +96,7 @@ void hit()
     Double_t ybd = 0.;
 
     // Create branches
-    hitTree->Branch("n_event", &n_event, "n_events/D");
+    hitTree->Branch("n_event", &n_event, "n_events/I");
 
     // Right x_strip silicon
     hitTree->Branch("Rxa", Rxa, "Rxa[5]/D");
@@ -194,16 +197,18 @@ void hit()
     fch->SetBranchAddress("NeEvent.xbd", &NeEvent_xbd);
     fch->SetBranchAddress("NeEvent.ybd", &NeEvent_ybd);
 
-    Long64_t entries = fch->GetEntries();
-    // Long64_t entries = 20000000;
-    // std::cout << "number of entries: " << entries << "\n";
+    // Long64_t entries = fch->GetEntries();
+    Long64_t entries = 3540198;
+    std::cout << "number of entries: " << entries << "\n";
 
     for (Long64_t entry=0; entry<entries; entry++)
     {
         fch->GetEntry(entry);
 
-        if(entry%1000000==0)
-        // std::cout<< "Entry: " << entry <<"\n";
+        if(entry%100000==0)
+        {
+            std::cout<< "Entry: " << entry <<"\n";            
+        }
         
         /********hit 结构 35°**************/
         // 重置hit计数器
@@ -216,27 +221,27 @@ void hit()
 
         for (int i = 0; i < 5; i++)
         {
-            Rxa[i] = 0;
-            Rxc[i] = 0;
+            Rxa[i] = 0.;
+            Rxc[i] = 0.;
             Rxa_n[i] = -1;
             
-            Rya[i] = 0;
-            Ryc[i] = 0;
+            Rya[i] = 0.;
+            Ryc[i] = 0.;
             Rya_n[i] = -1;
             
-            Lxa[i] = 0;
-            Lxc[i] = 0;
+            Lxa[i] = 0.;
+            Lxc[i] = 0.;
             Lxa_n[i] = -1;
             
-            Lya[i] = 0;
-            Lyc[i] = 0;
+            Lya[i] = 0.;
+            Lyc[i] = 0.;
             Lya_n[i] = -1;
 
-            Rea[i] = {0};
-            Rea_n[i] = {-1};
+            Rea[i] = 0.;
+            Rea_n[i] = -1;
             
-            Lea[i] = {0};
-            Lea_n[i] = {-1};
+            Lea[i] = 0.;
+            Lea_n[i] = -1;
 
         }
 
@@ -486,20 +491,21 @@ void hit()
         }
 
         // if(Rxa[0]>0. && Rea[0]>0. && Rya[0]>0. && Lxa[0]>0. && Lea[0]>0. && Lya[0]>0.)
-        // {
-        //     std::cout << "Entry: " << entry << "\n";
-        //     std::cout << "Rxa[0] = " << Rxa[0] << "; Rxa_n[0] = " << Rxa_n[0] << "\n"
-        //     << "Rya[0] = " << Rya[0] << "; Rya_n[0] = " << Rya_n[0] << "\n"
-        //     << "Rea[0] = " << Rea[0] << "; Rea_n[0] = " << Rea_n[0] << "\n";   
+        if(entry == entries - 5 || entry == 5 || entry == 15)
+        {
+            std::cout << "Entry: " << entry << "\n";
+            std::cout << "Rxa[0] = " << Rxa[0] << "; Rxa_n[0] = " << Rxa_n[0] << "\n"
+            << "Rya[0] = " << Rya[0] << "; Rya_n[0] = " << Rya_n[0] << "\n"
+            << "Rea[0] = " << Rea[0] << "; Rea_n[0] = " << Rea_n[0] << "\n";   
 
-        //     std::cout << "Rxa_hits = " << Rxa_hits << "; Rya_hits = " << Rya_hits << "; Rea_hits = " << Rea_hits << "\n\n";
+            std::cout << "Rxa_hits = " << Rxa_hits << "; Rya_hits = " << Rya_hits << "; Rea_hits = " << Rea_hits << "\n\n";
 
-        //     std::cout << "Lxa[0] = " << Lxa[0] << "; Lxa_n[0] = " << Lxa_n[0] << "\n"
-        //     << "Lya[0] = " << Lya[0] << "; Lya_n[0] = " << Lya_n[0] << "\n"
-        //     << "Lea[0] = " << Lea[0] << "; Lea_n[0] = " << Lea_n[0] << "\n";   
+            std::cout << "Lxa[0] = " << Lxa[0] << "; Lxa_n[0] = " << Lxa_n[0] << "\n"
+            << "Lya[0] = " << Lya[0] << "; Lya_n[0] = " << Lya_n[0] << "\n"
+            << "Lea[0] = " << Lea[0] << "; Lea_n[0] = " << Lea_n[0] << "\n";   
 
-        //     std::cout << "Lxa_hits = " << Lxa_hits << "; Lya_hits = " << Lya_hits << "; Lea_hits = " << Lea_hits << "\n\n";
-        // }
+            std::cout << "Lxa_hits = " << Lxa_hits << "; Lya_hits = " << Lya_hits << "; Lea_hits = " << Lea_hits << "\n\n";
+        }
 
         //ToF
         af3 = NeEvent_af3;
@@ -517,6 +523,7 @@ void hit()
         n_event++;
     }
     // 保存并关闭文件
+    outFile->cd();
     hitTree->Write();
     outFile->Write();
     outFile->Close();

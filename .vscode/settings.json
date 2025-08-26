@@ -1,0 +1,9 @@
+{
+    "files.associations": {
+        "hit.C": "cpp",
+        "aida_ntuple": "cpp",
+        "gl2ps": "cpp",
+        "ntuple": "cpp",
+        "iostream": "cpp"
+    }
+}
