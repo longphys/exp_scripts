@@ -1,0 +1,13 @@
+{
+    "files.associations": {
+        "wf_read_array.C": "cpp",
+        "test_1.C": "cpp",
+        "test_0.C": "cpp",
+        "wf_pre_analyse_2-checkpoint.C": "cpp",
+        "hit.C": "cpp",
+        "ostream": "cpp",
+        "algorithm": "cpp",
+        "read_csv_2.C": "cpp"
+    },
+    "C_Cpp.default.compilerPath": "/usr/bin/gcc"
+}
