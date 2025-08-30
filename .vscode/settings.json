@@ -4,6 +4,7 @@
         "aida_ntuple": "cpp",
         "gl2ps": "cpp",
         "ntuple": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "cali_Li6.C": "cpp"
     }
 }

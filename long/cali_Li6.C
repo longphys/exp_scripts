@@ -13,7 +13,7 @@ void cali_Li6()
 {
     Int_t stripnum=1;
     int start = 16;
-    int stop = 24;
+    int stop = 18;
     TChain *fch;
     fch = new TChain("tree", "tree");
     for (int i= start; i<=stop; i++){

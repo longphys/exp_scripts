@@ -205,19 +205,19 @@ s_Nel = 1;
 A[0]=28;
 Z[0]=14;
 W[0]=1;
-// Beam_Si_elo = new ELC(Beam_A,Beam_Z,s_Nel,2.35,A,Z,W,2000.,5000);
+Beam_Si_elo = new ELC(Beam_A,Beam_Z,s_Nel,2.35,A,Z,W,2000.,5000);
 
 s_Nel = 1;
 A[0]=1;
 Z[0]=1;
 W[0]=1;
-// Beam_H_elo= new ELC(Beam_A,Beam_Z,s_Nel,rho_target,A,Z,W,2000.,5000); 
+Beam_H_elo= new ELC(Beam_A,Beam_Z,s_Nel,rho_target,A,Z,W,2000.,5000); 
 
 s_Nel = 1;
 A[0]=56;
 Z[0]=26;
 W[0]=1;
-// Beam_Fe_elo= new ELC(Beam_A,Beam_Z,s_Nel,7.874,A,Z,W,2000.,5000);
+Beam_Fe_elo= new ELC(Beam_A,Beam_Z,s_Nel,7.874,A,Z,W,2000.,5000);
 
 Double_t tF3_offset[4] = {55., 0., -5.6, 1.};
 Double_t tF6_offset[4] = {0.0,-16.8 ,-113.3, -103.7};
@@ -299,34 +299,34 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
     tBeam = mass_Beam*(gamma-1.0);
 
 //printf("  T before F5: %f\n", tBeam);			// beam energy before F5 sci.
-    // tBeam = Beam_Si_elo->GetE(tBeam,F5Pl_thick);
+    tBeam = Beam_Si_elo->GetE(tBeam,F5Pl_thick);
 //printf("  T after F5: %f\n", tBeam);			// beam energy before MWPC1
     pBeam = sqrt(tBeam*tBeam + 2.*tBeam*mass_Beam);
     beta = pBeam/(tBeam + mass_Beam);
     dt = F5Pl_MWPC1_base/(beta*Light_S);
     BeamTimeAtTarget = BeamTimeAtTarget + dt;
 
-    // tBeam = Beam_Si_elo->GetE(tBeam,MWPC_thick);
+    tBeam = Beam_Si_elo->GetE(tBeam,MWPC_thick);
 //printf("  T after MW1: %f\n", tBeam);			// beam energy before MWPC2
     pBeam = sqrt(tBeam*tBeam + 2.*tBeam*mass_Beam);
     beta = pBeam/(tBeam + mass_Beam);
     dt = MWPC1_MWPC2_base/(beta*Light_S);
     BeamTimeAtTarget = BeamTimeAtTarget + dt;
 
-    // tBeam = Beam_Si_elo->GetE(tBeam,MWPC_thick);
+    tBeam = Beam_Si_elo->GetE(tBeam,MWPC_thick);
 //printf("  T after MW2: %f\n", tBeam);		// beam energy before target
     pBeam = sqrt(tBeam*tBeam + 2.*tBeam*mass_Beam);
     beta = pBeam/(tBeam + mass_Beam);
     dt = MWPC2_Target_base/(beta*Light_S);
     BeamTimeAtTarget = BeamTimeAtTarget + dt;
 
-    // tBeam = Beam_Fe_elo->GetE(tBeam,Target_window_thick);
+    tBeam = Beam_Fe_elo->GetE(tBeam,Target_window_thick);
 //printf("  T after target window : %f\n", tBeam);		// beam energy before target 
-    // tBeam = Beam_H_elo->GetE(tBeam,Target_thick);
+    tBeam = Beam_H_elo->GetE(tBeam,Target_thick);
 //printf("  T at center of target: %f\n\n", tBeam);		// beam energy in the center of target
-    // tBeamC = Beam_H_elo->GetE(tBeam,Target_thick);
+    tBeamC = Beam_H_elo->GetE(tBeam,Target_thick);
 //printf("  T at end of target: %f\n", tBeamC);		// beam energy after target
-    // tBeamC = Beam_Fe_elo->GetE(tBeamC,Target_window_thick);
+    tBeamC = Beam_Fe_elo->GetE(tBeamC,Target_window_thick);
 //printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
   }
