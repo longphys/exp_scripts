@@ -1,5 +1,5 @@
 #define _15C 28
-#define NUM 500
+#define NUM 1000
 
 #include "TChain.h"
 #include "TCanvas.h"
@@ -24,8 +24,6 @@ void cali_Li6()
     TCanvas *c1=new TCanvas("c1","c1");
 
     //! Add material
-    // Double_t silicon_thickness = 300.; // Microns
-    // Double_t CsI_thickness = 100000.; // Microns
     Double_t silicon_thickness = 300.; // Microns
     Double_t CsI_thickness = 100000.; // Microns
     std::vector<Double_t> thickness;
@@ -40,7 +38,8 @@ void cali_Li6()
     std::string ss;
     Double_t aa, bbb, e, dedx;
     // i=0;
-    Double_t E0=0.,Etem=0.,Esmall=0.,E2=0.,E=0.,dE=0.,x=0.,dx=0.25;
+    // Double_t E0=0.,Etem=0.,Esmall=0.,E2=0.,E=0.,dE=0.,x=0.,dx=0.25;
+    Double_t E0=0.,Etem=0.,Esmall=0.,E2=0.,E=0.,dE=0.,x=0.,dx=25;
     // E0 is the total energy value, E is the real-time recorded energy value, 
     // E1 is the energy when penetrating the first piece of silicon
     // E2 is the energy when penetrating the second piece.
@@ -51,6 +50,7 @@ void cali_Li6()
     str_f_d = TString::Format("/home/long/scripts/exp_scripts/lise/6Li_Si.txt");
 
     TGraph *g_1 = new TGraph();
+    g_1->SetTitle("6Li Energy loss (dE/dx) in Si;Energy (MeV/u);dE/dx (MeV/micron)");
 
     std::ifstream in_1(str_f_d.Data());
 
@@ -61,8 +61,8 @@ void cali_Li6()
         while(in_1>>aa>>bbb>>/*3*/e>>/*4*/dedx>>aa>>bbb>>aa>>bbb>>aa>>bbb>>aa>>bbb>>aa>>bbb)
         {
             // Extract the data in columns 3 and 4.
-            std::cout << "e:" << e << "\n";
-            std::cout << "dedx:" << dedx << "\n";
+            // std::cout << "e:" << e << "\n";
+            // std::cout << "dedx:" << dedx << "\n";
             g_1->SetPoint(i++, e*6, dedx);// Energy units are MeV/u. For 6Li, multiply by 6    
         }
     }
@@ -112,7 +112,7 @@ void cali_Li6()
                 sep[num_CsI][j][i]=0;
             }
 
-            E0=E=i*40./(Double_t)(NUM);
+            E0=E=i*160./(Double_t)(NUM);
             // if(i<NUM/2)E0=E=i*40./(Double_t)(NUM);
             // // Second half of events NUM, energy from 20 to 320 MeV
             // else E0=E=20.+(i-(Double_t)(NUM)/2)*300./(Double_t)(NUM);
@@ -125,12 +125,11 @@ void cali_Li6()
                 {
                     if (x >= x_start[layer] && x < x_end[layer]) 
                     {
-                        Double_t dist_to_boundary = x_end[layer] - x;
-                        Double_t dx_step = std::min(dx, dist_to_boundary);
-
                         // dE/dx from stopping power curve
                         Double_t dEdx = g_1->Eval(E);
-                        Double_t dE_dep = dEdx * dx_step;
+                        std::cout << "dEdx = " << dEdx << "\n";
+                        Double_t dE_dep = dEdx * dx;
+                        std::cout << "dE_dep = " << dE_dep << "\n";
 
                         if (dE_dep >= E) { // particle stops inside this step
                             sep[num_CsI][layer][i] += E;
@@ -141,7 +140,7 @@ void cali_Li6()
                         // deposit this step
                         sep[num_CsI][layer][i] += dE_dep;
                         E -= dE_dep;
-                        x += dx_step;
+                        x += dx;
 
                         break; // recheck x in case we move to next layer
                     }
@@ -157,6 +156,7 @@ void cali_Li6()
         }
     }
 
+    TCanvas* c2 = new TCanvas();
     TGraph* g_dEE = new TGraph();
 
     for (Int_t i = 0; i < NUM; i++) 
@@ -164,15 +164,20 @@ void cali_Li6()
         double dE = sep[0][0][i];  // layer 0 (Si)
         double E  = sep[0][1][i];  // layer 1 (CsI)
 
-        g_dEE->AddPoint(E, dE);    // x = E (CsI), y = ΔE (Si)
+        if(sep[0][1][i]>0)
+        {
+            double energy =i*140./(Double_t)(NUM);
+            std::cout << "Energy = " << energy << " or " << dE+E << "; dE = " << dE << "; E = " << E << "\n";
+            g_dEE->AddPoint(E, dE);    // x = E (CsI), y = ΔE (Si)
+        }
     }
 
-    c1->Clear();
-    c1->cd();
+    c2->Clear();
+    c2->cd();
     g_dEE->SetTitle("dE-E plot;E_{CsI} [MeV];dE_{Si} [MeV]");
     g_dEE->SetMarkerStyle(20);
     g_dEE->Draw("AP");
 
-    c1->Draw();
+    c2->Draw();
 
 }
