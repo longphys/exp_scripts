@@ -10,12 +10,13 @@
 #include "Riostream.h"
 #include <TString.h>
 #include <TRandom3.h>
+#include <TLorentzVector.h>
 //
 //For ELC library____________________________________
 
-#include "/home/golovkov/ELC/AELC.h"
-#include "/home/golovkov/ELC/ELC.h"
-R__LOAD_LIBRARY(/home/golovkov/ELC/libEloss.so);
+#include "/home/long/ELC/AELC.h"
+#include "/home/long/ELC/ELC.h"
+R__LOAD_LIBRARY(/home/long/ELC/libEloss.so);
 //
 AELC *Beam_Si_elo;
 AELC *Beam_H_elo;
