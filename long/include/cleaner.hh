@@ -10,20 +10,21 @@
 #include "Riostream.h"
 #include <TString.h>
 #include <TRandom3.h>
-//
+#include <TLorentzVector.h>
+
 //For ELC library____________________________________
 
-// #include "/home/golovkov/ELC/AELC.h"
-// #include "/home/golovkov/ELC/ELC.h"
-// R__LOAD_LIBRARY(/home/golovkov/ELC/libEloss.so);
-//
-// AELC *Beam_Si_elo;
-// AELC *Beam_H_elo;
-// AELC *Beam_Fe_elo;
-// AELC *p_Si_elo;
-// AELC *p_H_elo;
-// AELC *p_Fe_elo;
-//
+#include "/home/long/ELC/AELC.h"
+#include "/home/long/ELC/ELC.h"
+R__LOAD_LIBRARY(/home/long/ELC/libEloss.so);
+
+AELC *Beam_Si_elo;
+AELC *Beam_H_elo;
+AELC *Beam_Fe_elo;
+AELC *p_Si_elo;
+AELC *p_H_elo;
+AELC *p_Fe_elo;
+
 Double_t A[10], Z[10], W[10];
 Int_t s_Nel;
 Int_t Beam_A, Beam_Z;
@@ -34,7 +35,7 @@ Bool_t f_track, f_ToF;
 //
 Double_t  tBeam;
 Double_t  tBeamC;
-// TLorentzVector *lvBeam; 
+TLorentzVector *lvBeam; 
 Double_t BeamTimeAtTarget;
 Double_t ThetaBeam;
 Double_t PhiBeam;
