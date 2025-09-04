@@ -35,6 +35,7 @@ Bool_t f_track, f_ToF;
 //
 Double_t  tBeam;
 Double_t  tBeamC;
+Double_t  tBeamS[20]; // energy of the beam after the silicon.
 TLorentzVector *lvBeam; 
 Double_t BeamTimeAtTarget;
 Double_t ThetaBeam;
