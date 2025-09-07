@@ -55,15 +55,17 @@ lvBeam   = new TLorentzVector();
 
 
 //_________________________________________________
-TString FileNameIn  =   "run16_00.root";
+TString FileNameIn  =   "run16.root";
 //TString FileNameIn  =   "run02_16_5.root";
 TString FileNameOut =   FileNameIn;
 //TString FileNameOut =   "test.root";
 
-TFile *inF = new TFile("/home/golovkov/EXP/25e04/Be10/rawdata/" + FileNameIn, "READ");
+// TFile *inF = new TFile("/home/golovkov/EXP/25e04/Be10/rawdata/" + FileNameIn, "READ");
+TFile *inF = new TFile("/home/long/data/25e04/10Be/rawdata/" + FileNameIn, "READ");
 inTree = (TTree*)inF->Get("AnalysisxTree");
 //
-TFile *outF = new TFile("/home/golovkov/EXP/25e04/Be10/clndata/" + FileNameOut, "RECREATE");
+// TFile *outF = new TFile("/home/golovkov/EXP/25e04/Be10/clndata/" + FileNameOut, "RECREATE");
+TFile *outF = new TFile("/home/long/data/25e04/10Be/clndata/" + FileNameOut, "RECREATE");
 TTree *outTree= new TTree("clnTree", "clnTree");
 
 inTree->SetMakeClass(1);
@@ -150,6 +152,7 @@ outTree->Branch("F6",   F6,    "F6[5]/D");
 outTree->Branch("ToF",  &ToF,  "ToF/D");
 outTree->Branch("tBeam",  &tBeam,  "tBeam/D");
 outTree->Branch("tBeamC", &tBeamC, "tBeamC/D");
+outTree->Branch("tBeamS", tBeamS, "tBeamS[20]/D"); // An array of beam energies after the silicon
 outTree->Bronch("lvBeam",	"TLorentzVector",	&lvBeam);
 outTree->Branch("xbt",  &xbt,  "xbt/D");
 outTree->Branch("ybt",  &ybt,  "ybt/D");
@@ -236,7 +239,7 @@ for (int iii=0; iii<16; iii++)
 printf("##############################################################################\n");
 printf("#Loaded files have %lli entries. \n#Processing...\n", nEntries);
 for (Long64_t entry = 0; entry<nEntries; entry++)
-//for (Long64_t entry = 1000000; entry<1000100; entry++)
+// for (Long64_t entry = 1000000; entry<1000010; entry++)
 {
   inTree->GetEntry(entry);
   if( entry % ( nEntries / 10 ) == 0)
@@ -294,41 +297,69 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
     Double_t gamma=1/sqrt(1-beta*beta);
     Double_t pBeam;
     Double_t dt;
-//printf("  time at F5: %f\n", BeamTimeAtTarget);			// time at F5.
+// printf("  Entry: %00d\n", entry);			// Entry number.
+// printf("  time at F5: %f\n", BeamTimeAtTarget);			// time at F5.
     
     tBeam = mass_Beam*(gamma-1.0);
 
-//printf("  T before F5: %f\n", tBeam);			// beam energy before F5 sci.
+// printf("  T before F5: %f\n", tBeam);			// beam energy before F5 sci.
     tBeam = Beam_Si_elo->GetE(tBeam,F5Pl_thick);
-//printf("  T after F5: %f\n", tBeam);			// beam energy before MWPC1
+// printf("  T after F5: %f\n", tBeam);			// beam energy before MWPC1
     pBeam = sqrt(tBeam*tBeam + 2.*tBeam*mass_Beam);
     beta = pBeam/(tBeam + mass_Beam);
     dt = F5Pl_MWPC1_base/(beta*Light_S);
     BeamTimeAtTarget = BeamTimeAtTarget + dt;
 
     tBeam = Beam_Si_elo->GetE(tBeam,MWPC_thick);
-//printf("  T after MW1: %f\n", tBeam);			// beam energy before MWPC2
+// printf("  T after MW1: %f\n", tBeam);			// beam energy before MWPC2
     pBeam = sqrt(tBeam*tBeam + 2.*tBeam*mass_Beam);
     beta = pBeam/(tBeam + mass_Beam);
     dt = MWPC1_MWPC2_base/(beta*Light_S);
     BeamTimeAtTarget = BeamTimeAtTarget + dt;
 
     tBeam = Beam_Si_elo->GetE(tBeam,MWPC_thick);
-//printf("  T after MW2: %f\n", tBeam);		// beam energy before target
+// printf("  T after MW2: %f\n", tBeam);		// beam energy before target
     pBeam = sqrt(tBeam*tBeam + 2.*tBeam*mass_Beam);
     beta = pBeam/(tBeam + mass_Beam);
     dt = MWPC2_Target_base/(beta*Light_S);
     BeamTimeAtTarget = BeamTimeAtTarget + dt;
 
     tBeam = Beam_Fe_elo->GetE(tBeam,Target_window_thick);
-//printf("  T after target window : %f\n", tBeam);		// beam energy before target 
+// printf("  T after target window : %f\n", tBeam);		// beam energy before target 
     tBeam = Beam_H_elo->GetE(tBeam,Target_thick);
-//printf("  T at center of target: %f\n\n", tBeam);		// beam energy in the center of target
+// printf("  T at center of target: %f\n\n", tBeam);		// beam energy in the center of target
     tBeamC = Beam_H_elo->GetE(tBeam,Target_thick);
-//printf("  T at end of target: %f\n", tBeamC);		// beam energy after target
+// printf("  T at end of target: %f\n", tBeamC);		// beam energy after target
     tBeamC = Beam_Fe_elo->GetE(tBeamC,Target_window_thick);
-//printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
+// printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
+    // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
+    tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 290.);
+    tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 292.);
+    tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 294.);
+    tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 296.);
+    tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 298.);
+    tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 300.);
+    tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 302.);
+    tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 304.);
+    tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 306.);
+    tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 308.);
+    tBeamS[10] = Beam_Si_elo->GetE(tBeamC, 310.);
+    tBeamS[11] = Beam_Si_elo->GetE(tBeamC, 312.);
+    tBeamS[12] = Beam_Si_elo->GetE(tBeamC, 314.);
+    tBeamS[13] = Beam_Si_elo->GetE(tBeamC, 316.);
+    tBeamS[14] = Beam_Si_elo->GetE(tBeamC, 318.);
+    tBeamS[15] = Beam_Si_elo->GetE(tBeamC, 320.);
+    tBeamS[16] = Beam_Si_elo->GetE(tBeamC, 322.);
+    tBeamS[17] = Beam_Si_elo->GetE(tBeamC, 324.);
+    tBeamS[18] = Beam_Si_elo->GetE(tBeamC, 326.);
+    tBeamS[19] = Beam_Si_elo->GetE(tBeamC, 328.);
+// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[0]);		// beam energy after silicon detector.
+// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[4]);		// beam energy after silicon detector.
+// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[9]);		// beam energy after silicon detector.
+// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[14]);		// beam energy after silicon detector.
+// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[19]);		// beam energy after silicon detector.
+// sleep(1);
   }
   Int_t Lyso_offset[16] = {161,213,162,204,164,209,171,206,159,0,0,0,0,0,0,0};
   Int_t  CsI_offset[16] = {150,213,155,207,155,203,156,206,
@@ -359,18 +390,23 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
   mRY = 0;
   mLE = 0;
   mRE = 0;
+
   Double_t si_thresh = 0.5;
   Double_t lyso_thresh = 0.5;
+  Double_t csI_thresh = 0.5;
+
   for (int iii=0; iii<32; iii++)
   {
-    if(Lxt[iii]>-50&&Lxt[iii]<150 && Lxc[iii] > si_thresh)
+    // if(Lxt[iii]>-50&&Lxt[iii]<150 && Lxc[iii] > si_thresh)
+    if(Lxc[iii] > si_thresh)
     {
       LXe[mLX] = Lxc[iii];	
       LXt[mLX] = Lxt[iii];
       LXn[mLX] = iii;
       mLX++;
     }
-    if(Lyt[iii]>-50&&Lyt[iii]<150 && Lyc[iii] > si_thresh)
+    // if(Lyt[iii]>-50&&Lyt[iii]<150 && Lyc[iii] > si_thresh)
+    if(Lyc[iii] > si_thresh)
     {
       LYe[mLY] = Lyc[iii];	
       LYt[mLY] = Lyt[iii];
@@ -380,14 +416,16 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
   }  
   for (int iii=0; iii<16; iii++)
   {
-    if(Rxt[iii]>-50&&Rxt[iii]<150 && Rxc[iii] > si_thresh)
+    // if(Rxt[iii]>-50&&Rxt[iii]<150 && Rxc[iii] > si_thresh)
+    if(Rxc[iii] > si_thresh)
     {
       RXe[mRX] = Rxc[iii];	
       RXt[mRX] = Rxt[iii];
       RXn[mRX] = iii;
       mRX++;
     }
-    if(Ryt[iii]>-50&&Ryt[iii]<150 && Ryc[iii] > si_thresh)
+    // if(Ryt[iii]>-50&&Ryt[iii]<150 && Ryc[iii] > si_thresh)
+    if(Ryc[iii] > si_thresh)
     {
       RYe[mRY] = Ryc[iii];	
       RYt[mRY] = Ryt[iii];
@@ -397,12 +435,24 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
   }
   for (int iii=0; iii<9; iii++)
   {  
-    if(Let[iii]>-105&&Let[iii]<-85 && Lec[iii] > lyso_thresh)
+    // if(Let[iii]>-105&&Let[iii]<-85 && Lec[iii] > lyso_thresh)
+    if(Lec[iii] > lyso_thresh)
     {
       LE[mLE] = Lec[iii];	
       LT[mLE] = Let[iii];
       Ln[mLE] = iii;
       mLE++;
+    }
+  }
+  
+  for (int iii=0; iii<16; iii++)
+  {  
+    if(Rec[iii] > csI_thresh)
+    {
+      RE[mRE] = Rec[iii];	
+      RT[mRE] = Ret[iii];
+      Rn[mRE] = iii;
+      mRE++;
     }
   }
 //______________________________________________________MWPC tracking

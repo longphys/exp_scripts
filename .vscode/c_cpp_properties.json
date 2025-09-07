@@ -4,9 +4,12 @@
             "name": "Linux",
             "includePath": [
                 "${workspaceFolder}/**",
-              "/home/long/geant4/**",
-              "/home/long/root/**",
-              ""
+                "/home/long/geant4/**",
+                "/home/long/root/**",
+                ""
+            ],
+            "compileCommands": [
+                "/home/long/root/root-6.36.02-build/compile_commands.json"
             ]
         }
     ],
