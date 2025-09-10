@@ -168,7 +168,7 @@ Int_t Lea_hits = 0;
 Double_t tF3c, tF5c, tF6c; // converted time values
 Double_t tBeam; // Kinetic energy of the beam
 Double_t  tBeamC; // Kinetic energy of the beam after the target
-Double_t  tBeamS[10]; // energy of the beam after the silicon
+Double_t  tBeamS[20]; // energy of the beam after the silicon
 Double_t BeamTimeAtTarget;
 
 // Beam variables

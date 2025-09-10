@@ -313,16 +313,26 @@ void hit()
             // printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
             // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
-            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 200.);
-            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 220.);
-            tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 240.);
-            tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 260.);
-            tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 280.);
-            tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 300.);
-            tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 320.);
-            tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 340.);
-            tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 360.);
-            tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 380.);
+            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 290.);
+            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 291.);
+            tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 292.);
+            tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 293.);
+            tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 294.);
+            tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 295.);
+            tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 296.);
+            tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 297.);
+            tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 298.);
+            tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 299.);
+            tBeamS[10] = Beam_Si_elo->GetE(tBeamC, 300.);
+            tBeamS[11] = Beam_Si_elo->GetE(tBeamC, 301.);
+            tBeamS[12] = Beam_Si_elo->GetE(tBeamC, 302.);
+            tBeamS[13] = Beam_Si_elo->GetE(tBeamC, 303.);
+            tBeamS[14] = Beam_Si_elo->GetE(tBeamC, 304.);
+            tBeamS[15] = Beam_Si_elo->GetE(tBeamC, 305.);
+            tBeamS[16] = Beam_Si_elo->GetE(tBeamC, 306.);
+            tBeamS[17] = Beam_Si_elo->GetE(tBeamC, 307.);
+            tBeamS[18] = Beam_Si_elo->GetE(tBeamC, 308.);
+            tBeamS[19] = Beam_Si_elo->GetE(tBeamC, 309.);
             // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[0]);		// beam energy after silicon detector.
             // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[4]);		// beam energy after silicon detector.
             // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[9]);		// beam energy after silicon detector.
