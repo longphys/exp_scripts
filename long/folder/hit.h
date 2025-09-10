@@ -168,8 +168,8 @@ Int_t Lea_hits = 0;
 Double_t tF3c, tF5c, tF6c; // converted time values
 Double_t tBeam; // Kinetic energy of the beam
 Double_t  tBeamC; // Kinetic energy of the beam after the target
-Double_t  tBeamS[20]; // energy of the beam after the silicon
-Double_t BeamTimeAtTarget;
+// Double_t  tBeamS[20]; // energy of the beam after the silicon
+Double_t BeamTimeAtTarget = 0.;
 
 // Beam variables
 AELC *Beam_Si_elo;
@@ -216,6 +216,10 @@ Double_t Target_thick		= 3000.;	// half of target thickness  (H2 gas, um)
 Double_t ToF_offset		= 68.475 + 0.250;		//  (ns)
 Double_t Ztarget		= 0.;		// target    Z position (mm)
 Double_t Zdia			= -145.;	// diaphragm Z position (mm)
+
+Int_t Lyso_offset[16] = {161,213,162,204,164,209,171,206,159,0,0,0,0,0,0,0};
+Int_t  CsI_offset[16] = {150,213,155,207,155,203,156,206,
+                        157,197,167,189,169,190,174,195};
 
 // channels to ps
 Double_t convert_time = 0.03125;

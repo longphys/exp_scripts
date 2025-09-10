@@ -11,7 +11,7 @@ void hit()
     int start = 0;
     int stop = 0;
     for (int i= start; i<=stop; i++){
-        // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run25_%02d.root" , i);
+        // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_%02d.root" ,n_run, i);
         TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , n_run);
         fch->AddFile(fileName.Data());
     }
@@ -182,7 +182,7 @@ void hit()
     // Calculated Beam energy
     // After silicon
     hitTree->Branch("tBeamC",     &tBeamC,       "tBeamC/D");
-    hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[10]/D");
+    // hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[20]/D");
 
     mass_Beam = mass_Be10;
     Beam_A = 10;
@@ -313,32 +313,47 @@ void hit()
             // printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
             // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
-            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 290.);
-            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 291.);
-            tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 292.);
-            tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 293.);
-            tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 294.);
-            tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 295.);
-            tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 296.);
-            tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 297.);
-            tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 298.);
-            tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 299.);
-            tBeamS[10] = Beam_Si_elo->GetE(tBeamC, 300.);
-            tBeamS[11] = Beam_Si_elo->GetE(tBeamC, 301.);
-            tBeamS[12] = Beam_Si_elo->GetE(tBeamC, 302.);
-            tBeamS[13] = Beam_Si_elo->GetE(tBeamC, 303.);
-            tBeamS[14] = Beam_Si_elo->GetE(tBeamC, 304.);
-            tBeamS[15] = Beam_Si_elo->GetE(tBeamC, 305.);
-            tBeamS[16] = Beam_Si_elo->GetE(tBeamC, 306.);
-            tBeamS[17] = Beam_Si_elo->GetE(tBeamC, 307.);
-            tBeamS[18] = Beam_Si_elo->GetE(tBeamC, 308.);
-            tBeamS[19] = Beam_Si_elo->GetE(tBeamC, 309.);
-            // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[0]);		// beam energy after silicon detector.
-            // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[4]);		// beam energy after silicon detector.
-            // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[9]);		// beam energy after silicon detector.
-            // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[14]);		// beam energy after silicon detector.
-            // printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[19]);		// beam energy after silicon detector.
+            // tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 290.);
+            // tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 291.);
+            // tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 292.);
+            // tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 293.);
+            // tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 294.);
+            // tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 295.);
+            // tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 296.);
+            // tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 297.);
+            // tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 298.);
+            // tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 299.);
+            // tBeamS[10] = Beam_Si_elo->GetE(tBeamC, 300.);
+            // tBeamS[11] = Beam_Si_elo->GetE(tBeamC, 301.);
+            // tBeamS[12] = Beam_Si_elo->GetE(tBeamC, 302.);
+            // tBeamS[13] = Beam_Si_elo->GetE(tBeamC, 303.);
+            // tBeamS[14] = Beam_Si_elo->GetE(tBeamC, 304.);
+            // tBeamS[15] = Beam_Si_elo->GetE(tBeamC, 305.);
+            // tBeamS[16] = Beam_Si_elo->GetE(tBeamC, 306.);
+            // tBeamS[17] = Beam_Si_elo->GetE(tBeamC, 307.);
+            // tBeamS[18] = Beam_Si_elo->GetE(tBeamC, 308.);
+            // tBeamS[19] = Beam_Si_elo->GetE(tBeamC, 309.);
             // sleep(1);
+        }
+
+        for (int iii=0; iii<16; iii++)
+        {
+            Rxt[iii]  = 0.125*((Double_t) NeEvent_Rxt[iii]  + gRandom->Uniform()) - BeamTimeAtTarget;
+            Ryt[iii]  = 0.125*((Double_t) NeEvent_Ryt[iii]  + gRandom->Uniform()) - BeamTimeAtTarget;
+            Ret[iii]  = 0.125*((Double_t) NeEvent_Ret[iii]  + gRandom->Uniform()) - BeamTimeAtTarget;
+            Rec[iii]  = Rec[iii] - CsI_offset[iii];
+        }
+        for (int iii=0; iii<32; iii++)
+        {
+            Lxt[iii]  = 0.125*((Double_t) NeEvent_Lxt[iii]  + gRandom->Uniform()) - BeamTimeAtTarget;
+            Lyt[iii]  = 0.125*((Double_t) NeEvent_Lyt[iii]  + gRandom->Uniform()) - BeamTimeAtTarget;
+            if(iii<16) Lyt[iii] = Lyt[iii] +100.;
+        }
+        
+        for (int iii=0; iii<9; iii++)
+        {
+            Let[iii]  = 0.125*((Double_t) NeEvent_Let[iii]  + gRandom->Uniform()) - BeamTimeAtTarget;
+            Lec[iii]  = Lec[iii] - Lyso_offset[iii];
         }
 
         // Take the ADC values of silicon and scintillator detectors from the data.

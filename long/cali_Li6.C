@@ -1,23 +1,26 @@
 #define _15C 28
-#define NUM 1000
+#define NUM 100
+#define _N 6
 
 #include "TChain.h"
 #include "TCanvas.h"
 #include "TGraph.h"
-#include <iostream>
-#include <fstream>
-#include <sstream>
+
+//For ELC library____________________________________
+
+#include "/home/long/ELC/AELC.h"
+#include "/home/long/ELC/ELC.h"
+R__LOAD_LIBRARY(/home/long/ELC/libEloss.so);
 
 void cali_Li6()
 {
-    Int_t stripnum = 0;
     int start = 16;
-    int stop = 18;
+    int stop = 24;
     TChain *fch;
     fch = new TChain("tree", "tree");
     for (int i= start; i<=stop; i++){
-        TString fileName = TString::Format("/home/long/data/25e04/10Be/hit/run%02d_hit.root" , i);
-        fch->AddFile(fileName.Data());
+    TString fileName = TString::Format("/home/long/data/25e04/10Be/hit/run%02d_hit.root" , i);
+    fch->AddFile(fileName.Data());
     }
     // fch->Print();
 

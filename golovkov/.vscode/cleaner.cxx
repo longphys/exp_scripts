@@ -152,7 +152,6 @@ outTree->Branch("F6",   F6,    "F6[5]/D");
 outTree->Branch("ToF",  &ToF,  "ToF/D");
 outTree->Branch("tBeam",  &tBeam,  "tBeam/D");
 outTree->Branch("tBeamC", &tBeamC, "tBeamC/D");
-outTree->Branch("tBeamS", tBeamS, "tBeamS[20]/D"); // An array of beam energies after the silicon
 outTree->Bronch("lvBeam",	"TLorentzVector",	&lvBeam);
 outTree->Branch("xbt",  &xbt,  "xbt/D");
 outTree->Branch("ybt",  &ybt,  "ybt/D");
@@ -334,32 +333,6 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
 // printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
     // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
-    tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 290.);
-    tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 292.);
-    tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 294.);
-    tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 296.);
-    tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 298.);
-    tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 300.);
-    tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 302.);
-    tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 304.);
-    tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 306.);
-    tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 308.);
-    tBeamS[10] = Beam_Si_elo->GetE(tBeamC, 310.);
-    tBeamS[11] = Beam_Si_elo->GetE(tBeamC, 312.);
-    tBeamS[12] = Beam_Si_elo->GetE(tBeamC, 314.);
-    tBeamS[13] = Beam_Si_elo->GetE(tBeamC, 316.);
-    tBeamS[14] = Beam_Si_elo->GetE(tBeamC, 318.);
-    tBeamS[15] = Beam_Si_elo->GetE(tBeamC, 320.);
-    tBeamS[16] = Beam_Si_elo->GetE(tBeamC, 322.);
-    tBeamS[17] = Beam_Si_elo->GetE(tBeamC, 324.);
-    tBeamS[18] = Beam_Si_elo->GetE(tBeamC, 326.);
-    tBeamS[19] = Beam_Si_elo->GetE(tBeamC, 328.);
-// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[0]);		// beam energy after silicon detector.
-// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[4]);		// beam energy after silicon detector.
-// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[9]);		// beam energy after silicon detector.
-// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[14]);		// beam energy after silicon detector.
-// printf("  T after target silicon: %f\n\n", tBeamC-tBeamS[19]);		// beam energy after silicon detector.
-// sleep(1);
   }
   Int_t Lyso_offset[16] = {161,213,162,204,164,209,171,206,159,0,0,0,0,0,0,0};
   Int_t  CsI_offset[16] = {150,213,155,207,155,203,156,206,
@@ -393,7 +366,6 @@ for (Long64_t entry = 0; entry<nEntries; entry++)
 
   Double_t si_thresh = 0.5;
   Double_t lyso_thresh = 0.5;
-  Double_t csI_thresh = 0.5;
 
   for (int iii=0; iii<32; iii++)
   {
