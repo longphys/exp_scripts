@@ -7,7 +7,7 @@
 
 void draw(){
     int start = 16;
-    int stop = 24;
+    int stop = 20;
     TChain *fch;
     fch = new TChain("tree", "tree");
     for (int i= start; i<=stop; i++)
@@ -49,37 +49,4 @@ void draw(){
     c1->Draw();
     if(num1==0) return;
 
-    TGraph2D *e1=new TGraph2D(num1,fch->GetV3(),fch->GetV2(),fch->GetV1());
-    Int_t npoints1=e1->GetN();
-
-    TGraph *tempresult[3][10];
-    for(Int_t I=0;I<3;I++){ for(Int_t J=0;J<10;J++)tempresult[I][J]= new TGraph;}
-    TGraph *evalcheck=new TGraph();
-    TGraph *result[3];
-    for(Int_t I=0;I<3;I++) result[I]= new TGraph();
-    TGraph *indeedpid[3];
-    for(Int_t I=0;I<3;I++) indeedpid[I]= new TGraph();
-    Double_t kk[3][10],bb[3][10];
-    Double_t *gex=e1->GetY();
-    Double_t *gey=e1->GetZ();
-
-    Int_t J=0;
-    for(Int_t i=0;i<npoints1;i++)
-    {
-        //if(ey[I]>20&&ex[I]>=800&&ex[I]<2000){tempresult[1]->SetPoint(J,ex[I],pid->Eval(ey[I]));J++;}
-        if(gey[i]>0.3&&gex[i]>=500&&gex[i]<30000){tempresult[0][1]->SetPoint(J,calpid13_p[0]->Eval(gey[i]),gex[i]);J++;}
-        //tempresult[1]->SetPoint(J,pid->Eval(gey[i]),gex[i]);J++;
-    }
-
-    tempresult[0][1]->Draw("ap");
-    c1->Draw();
-    TF1 *f3 = new TF1("f3","[1]*x+[0]",1,100);
-    f3->SetParameter(0,200);
-    f3->SetParameter(1,0);
-    f3->SetParLimits(1,50,500);
-    TFitResultPtr r1 = tempresult[0][1]->Fit("f3","QS+rob=0.9");
-    kk[0][1]=r1->Value(1);
-    bb[0][1]=r1->Value(0);
-    std::cout<<"N="<<npoints1<<'\n';
-    std::cout<<"i="<<J<<" kp="<<kk[0][1]<<" bp="<<bb[0][1]<<'\n'; 
 }

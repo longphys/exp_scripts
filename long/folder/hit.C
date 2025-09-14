@@ -7,7 +7,7 @@ void hit()
 {
     TChain *fch = new TChain("AnalysisxTree");
 
-    Int_t n_run = 16;
+    Int_t n_run = 21;
     int start = 0;
     int stop = 0;
     for (int i= start; i<=stop; i++){
