@@ -181,8 +181,11 @@ void hit()
     
     // Calculated Beam energy
     // After silicon
+    hitTree->Branch("tBeam_ToF",     &tBeam_ToF,       "tBeam_ToF/D");
+    hitTree->Branch("tBeam",     &tBeam,       "tBeam/D");
     hitTree->Branch("tBeamC",     &tBeamC,       "tBeamC/D");
-    // hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[20]/D");
+    hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[20]/D");
+    // hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[2]/D");
 
     mass_Beam = mass_Be10;
     Beam_A = 10;
@@ -280,6 +283,7 @@ void hit()
             // printf("  time at F5: %f\n", BeamTimeAtTarget);			// time at F5.
             
             tBeam = mass_Beam*(gamma-1.0);
+            tBeam_ToF = tBeam;
 
             // printf("  T before F5: %f\n", tBeam);			// beam energy before F5 sci.
             tBeam = Beam_Si_elo->GetE(tBeam,F5Pl_thick);
@@ -313,26 +317,8 @@ void hit()
             // printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
             // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
-            // tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 290.);
-            // tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 291.);
-            // tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 292.);
-            // tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 293.);
-            // tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 294.);
-            // tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 295.);
-            // tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 296.);
-            // tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 297.);
-            // tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 298.);
-            // tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 299.);
-            // tBeamS[10] = Beam_Si_elo->GetE(tBeamC, 300.);
-            // tBeamS[11] = Beam_Si_elo->GetE(tBeamC, 301.);
-            // tBeamS[12] = Beam_Si_elo->GetE(tBeamC, 302.);
-            // tBeamS[13] = Beam_Si_elo->GetE(tBeamC, 303.);
-            // tBeamS[14] = Beam_Si_elo->GetE(tBeamC, 304.);
-            // tBeamS[15] = Beam_Si_elo->GetE(tBeamC, 305.);
-            // tBeamS[16] = Beam_Si_elo->GetE(tBeamC, 306.);
-            // tBeamS[17] = Beam_Si_elo->GetE(tBeamC, 307.);
-            // tBeamS[18] = Beam_Si_elo->GetE(tBeamC, 308.);
-            // tBeamS[19] = Beam_Si_elo->GetE(tBeamC, 309.);
+            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 284.);
+            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 299.); // beam energy after Si.
             // sleep(1);
         }
 
