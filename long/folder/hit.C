@@ -7,12 +7,12 @@ void hit()
 {
     TChain *fch = new TChain("AnalysisxTree");
 
-    Int_t n_run = 21;
+    Int_t n_run = 24;
     int start = 0;
     int stop = 0;
     for (int i= start; i<=stop; i++){
-        // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_%02d.root" ,n_run, i);
-        TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , n_run);
+        TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_%02d.root" ,n_run, i);
+        // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , n_run);
         fch->AddFile(fileName.Data());
     }
 
