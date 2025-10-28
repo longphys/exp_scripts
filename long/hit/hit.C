@@ -7,17 +7,19 @@ void hit()
 {
     TChain *fch = new TChain("AnalysisxTree");
 
-    Int_t n_run = 24;
+    Int_t n_run = 10;
     int start = 0;
-    int stop = 0;
+    int stop = 6;
     for (int i= start; i<=stop; i++){
-        TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_%02d.root" ,n_run, i);
+        // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_%02d.root" ,n_run, i);
         // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , n_run);
+        TString fileName = TString::Format("~/data/25e04/12Be/rawdata/12Be%02d_%02d.root" ,n_run, i);
         fch->AddFile(fileName.Data());
     }
 
     // Create a new ROOT file
-    TString outFileName = TString::Format("~/data/25e04/10Be/hit/run%02d_hit.root", n_run);
+    // TString outFileName = TString::Format("~/data/25e04/10Be/hit/run%02d.root", n_run);
+    TString outFileName = TString::Format("~/data/25e04/12Be/hit/12Be%02d.root", n_run);
     TFile *outFile = new TFile(outFileName, "recreate");
     TTree *hitTree = new TTree("tree", "tree");
 
@@ -184,11 +186,13 @@ void hit()
     hitTree->Branch("tBeam_ToF",     &tBeam_ToF,       "tBeam_ToF/D");
     hitTree->Branch("tBeam",     &tBeam,       "tBeam/D");
     hitTree->Branch("tBeamC",     &tBeamC,       "tBeamC/D");
-    hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[20]/D");
-    // hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[2]/D");
+    hitTree->Branch("tBeamS",     tBeamS,       "tBeamS[10]/D");
+    // hitTree->Branch("tBeamS",     &tBeamS,       "tBeamS/D");
 
-    mass_Beam = mass_Be10;
-    Beam_A = 10;
+    mass_Beam = mass_Be12;
+    // mass_Beam = mass_Be10;
+    Beam_A = 12;
+    // Beam_A = 10;
     Beam_Z = 4;
 
     s_Nel = 1;
@@ -271,7 +275,8 @@ void hit()
         // Calculate the energy of the beam
         tBeam = 0.;
 
-        if(ToF>170.&&ToF<210.)
+        //if(ToF>170.&&ToF<210.) //Be10
+        if(ToF>150.&&ToF<170.) //Be12
         {
             BeamTimeAtTarget = tF5c;	// start calcul. of time of beam at target
             
@@ -317,8 +322,17 @@ void hit()
             // printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
             // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
-            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 284.);
-            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 299.); // beam energy after Si.
+            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 286.);
+            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 287.);
+            tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 288.);
+            tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 289.);
+            tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 290.);
+            tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 291.);
+            tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 292.);
+            tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 293.);
+            tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 294.);
+            tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 295.);
+
             // sleep(1);
         }
 
