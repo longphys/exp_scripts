@@ -6,7 +6,7 @@ void thickness()
     TChain* ch_1 = new TChain("tree");
 
     ch_1->AddFile("/home/long/data/25e04/12Be/hit/12Be09.root");
-    ch_1->AddFile("/home/long/data/25e04/12Be/hit/12Be10.root");
+    // ch_1->AddFile("/home/long/data/25e04/12Be/hit/12Be10.root");
 
     Int_t n_run = 0;
     Int_t n_event = 0;
@@ -82,7 +82,7 @@ void thickness()
     ch_1->SetBranchAddress("af3", &af3);
     ch_1->SetBranchAddress("af5", &af5);
 
-    gROOT->Macro("~/scripts/exp_scripts/long/hit/12Be_8.C");
+    // gROOT->Macro("~/scripts/exp_scripts/long/hit/12Be_8.C");
     gROOT->Macro("~/scripts/exp_scripts/long/hit/12Be_4.C");
 
     TH1D* h_1 = new TH1D("h_1", "h_1", 200,-5,5);
@@ -99,9 +99,27 @@ void thickness()
     // ch_1->Draw("Rxc[0]:Rea[0]>>(1000,0,7500,1000,1000,0,50)","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && xbt*xbt+ybt*ybt<80","colz");
     
     c_2->cd(1);
-    ch_1->Draw("tBeamC-tBeamS[5]-Rxc[0]>>h_2","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","colz");
+    // ch_1->Draw("tBeamC-tBeamS[5]-Rxc[0]>>h_2","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","colz");
     h_2->SetStats(0);
     c_2->cd(2);
-    ch_1->Draw("tBeamC-tBeamS[4]-Rxc[0]>>h_1","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=4 && Rya_n[0]<=7 && xbt*xbt+ybt*ybt<80 && 12Be_8","colz");
+    // ch_1->Draw("tBeamC-tBeamS[4]-Rxc[0]>>h_1","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=4 && Rya_n[0]<=7 && xbt*xbt+ybt*ybt<80 && 12Be_8","colz");
     h_1->SetStats(0);
+
+    
+    TH1D* h_a = new TH1D("h_a", "h_a", 200,-5,5);
+    TH1D* h_b = new TH1D("h_b", "h_b", 200,-5,5);
+    TH1D* h_c = new TH1D("h_c", "h_c", 200,-5,5);
+    TCanvas* c_3 = new TCanvas("c_3", "c_3", 1000,800);
+    c_3->cd();
+    h_a->SetLineColor(kBlack);
+    h_a->SetStats(0);   
+    ch_1->Draw("tBeamC-tBeamS[4]-Rxc[0]>>h_a","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","");
+    
+    h_b->SetLineColor(kRed);
+    h_b->SetLineStyle(2);
+    ch_1->Draw("tBeamC-tBeamS[2]-Rxc[0]>>h_b","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","same");
+        
+    h_c->SetLineColor(kBlue);
+    h_c->SetLineStyle(2);
+    ch_1->Draw("tBeamC-tBeamS[6]-Rxc[0]>>h_c","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","same");
 }

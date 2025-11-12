@@ -7,9 +7,9 @@ void hit()
 {
     TChain *fch = new TChain("AnalysisxTree");
 
-    Int_t n_run = 10;
+    Int_t n_run = 9;
     int start = 0;
-    int stop = 6;
+    int stop = 2;
     for (int i= start; i<=stop; i++){
         // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d_%02d.root" ,n_run, i);
         // TString fileName = TString::Format("~/data/25e04/10Be/rawdata/run%02d.root" , n_run);
@@ -322,16 +322,16 @@ void hit()
             // printf("  T after target window: %f\n\n", tBeamC);		// beam energy after target window
 
             // Energy after thickness = AELC(Beam+Target)->GetE(Energy before thickness(MeV), thickness of material(microns));
-            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 286.);
-            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 287.);
-            tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 288.);
-            tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 289.);
+            tBeamS[0] = Beam_Si_elo->GetE(tBeamC, 265.);
+            tBeamS[1] = Beam_Si_elo->GetE(tBeamC, 270.);
+            tBeamS[2] = Beam_Si_elo->GetE(tBeamC, 275.);
+            tBeamS[3] = Beam_Si_elo->GetE(tBeamC, 280.);
             tBeamS[4] = Beam_Si_elo->GetE(tBeamC, 290.);
-            tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 291.);
-            tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 292.);
-            tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 293.);
-            tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 294.);
-            tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 295.);
+            tBeamS[5] = Beam_Si_elo->GetE(tBeamC, 295.);
+            tBeamS[6] = Beam_Si_elo->GetE(tBeamC, 300.);
+            tBeamS[7] = Beam_Si_elo->GetE(tBeamC, 305.);
+            tBeamS[8] = Beam_Si_elo->GetE(tBeamC, 310.);
+            tBeamS[9] = Beam_Si_elo->GetE(tBeamC, 315.);
 
             // sleep(1);
         }
