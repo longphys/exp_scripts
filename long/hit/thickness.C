@@ -106,13 +106,18 @@ void thickness()
     h_1->SetStats(0);
 
     
-    TH1D* h_a = new TH1D("h_a", "h_a", 200,-5,5);
-    TH1D* h_b = new TH1D("h_b", "h_b", 200,-5,5);
-    TH1D* h_c = new TH1D("h_c", "h_c", 200,-5,5);
-    TCanvas* c_3 = new TCanvas("c_3", "c_3", 1000,800);
+    TH1D* h_a = new TH1D("h_a", "h_a", 100,-3,3);
+    TH1D* h_b = new TH1D("h_b", "h_b", 100,-3,3);
+    TH1D* h_c = new TH1D("h_c", "h_c", 100,-3,3);
+    TCanvas* c_3 = new TCanvas("c_3", "c_3", 900,800);
+    c_3->SetLeftMargin(0.1);
+    c_3->SetRightMargin(0.1);
+    c_3->SetTopMargin(0.1);
+    c_3->SetBottomMargin(0.1);
     c_3->cd();
     h_a->SetLineColor(kBlack);
     h_a->SetStats(0);   
+    h_a->SetTitle("");
     ch_1->Draw("tBeamC-tBeamS[4]-Rxc[0]>>h_a","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","");
     
     h_b->SetLineColor(kRed);
@@ -122,4 +127,14 @@ void thickness()
     h_c->SetLineColor(kBlue);
     h_c->SetLineStyle(2);
     ch_1->Draw("tBeamC-tBeamS[6]-Rxc[0]>>h_c","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","same");
+    
+   auto legend = new TLegend(0.15,0.65,0.3,0.85);
+//    legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
+    legend->SetBorderSize(0);
+    legend->SetFillStyle(0);  // No fill (fully transparent)
+    legend->AddEntry(h_a,"Right Si","l");
+    legend->AddEntry(h_b,"-10 um","l");
+    legend->AddEntry(h_c,"+10 um","l");
+    legend->SetTextSize(0.045);  // Set text size
+    legend->Draw();
 }
