@@ -84,6 +84,7 @@ void thickness()
 
     // gROOT->Macro("~/scripts/exp_scripts/long/hit/12Be_8.C");
     gROOT->Macro("~/scripts/exp_scripts/long/hit/12Be_4.C");
+    gROOT->Macro("~/scripts/exp_scripts/long/hit/test.C");
 
     TH1D* h_1 = new TH1D("h_1", "h_1", 200,-5,5);
     TH1D* h_2 = new TH1D("h_2", "h_2", 200,-5,5);
@@ -105,36 +106,76 @@ void thickness()
     // ch_1->Draw("tBeamC-tBeamS[4]-Rxc[0]>>h_1","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=4 && Rya_n[0]<=7 && xbt*xbt+ybt*ybt<80 && 12Be_8","colz");
     h_1->SetStats(0);
 
-    
-    TH1D* h_a = new TH1D("h_a", "h_a", 100,-3,3);
-    TH1D* h_b = new TH1D("h_b", "h_b", 100,-3,3);
-    TH1D* h_c = new TH1D("h_c", "h_c", 100,-3,3);
-    TCanvas* c_3 = new TCanvas("c_3", "c_3", 900,800);
+    TH1D* h_a = new TH1D("h_a", "h_a", 300,0,30);
+    TH1D* h_b = new TH1D("h_b", "h_b", 300,0,30);
+    TH1D* h_c = new TH1D("h_c", "h_c", 300,0,30);
+    TH1D* h_d = new TH1D("h_d", "h_d", 300,0,30);
+    TCanvas* c_3 = new TCanvas("c_3", "c_3", 1000,800);
     c_3->SetLeftMargin(0.1);
     c_3->SetRightMargin(0.1);
     c_3->SetTopMargin(0.1);
     c_3->SetBottomMargin(0.1);
     c_3->cd();
-    h_a->SetLineColor(kBlack);
+    h_a->SetLineColor(kBlue);
     h_a->SetStats(0);   
     h_a->SetTitle("");
-    ch_1->Draw("tBeamC-tBeamS[4]-Rxc[0]>>h_a","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","");
-    
+    ch_1->Draw("tBeamC-tBeamS[4]>>h_a","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && test && xbt*xbt+ybt*ybt<80","");
+    // ch_1->Draw("tBeamC-tBeamS[4]","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","");    
+    h_a->GetXaxis()->SetRangeUser(13.,21.);
+    h_a->GetXaxis()->SetTitle("E_{Si} (MeV)");
+    h_a->GetXaxis()->CenterTitle();  
+    // h_a->GetXaxis()->SetTitleFont(22);
+    h_a->GetXaxis()->SetTitleSize(0.04);
+
+    h_a->GetYaxis()->SetRangeUser(0,900.);
+    h_a->GetYaxis()->SetTitle("Counts");
+    h_a->GetYaxis()->CenterTitle();  
+    // h_a->GetYaxis()->SetTitleFont(22);
+    h_a->GetYaxis()->SetTitleSize(0.04);
+    c_3->Modified();
+    c_3->Update();
+
     h_b->SetLineColor(kRed);
-    h_b->SetLineStyle(2);
-    ch_1->Draw("tBeamC-tBeamS[2]-Rxc[0]>>h_b","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","same");
+    // h_b->SetLineStyle(2);
+    // ch_1->Draw("tBeamC-tBeamS[2]-Rxc[0]>>h_b","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","same");
+    ch_1->Draw("Rxc[0]>>h_b","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && test && xbt*xbt+ybt*ybt<80", "same");    
+    c_3->Modified();
+    c_3->Update();
         
-    h_c->SetLineColor(kBlue);
+    h_c->SetLineColor(kBlack);
     h_c->SetLineStyle(2);
-    ch_1->Draw("tBeamC-tBeamS[6]-Rxc[0]>>h_c","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && 12Be_4 && xbt*xbt+ybt*ybt<80","same");
+    ch_1->Draw("tBeamC-tBeamS[1]>>h_c","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && test && xbt*xbt+ybt*ybt<80","same");    
+    c_3->Modified();
+    c_3->Update();
     
-   auto legend = new TLegend(0.15,0.65,0.3,0.85);
+    h_d->SetLineColor(kBlack);
+    h_d->SetLineStyle(2);
+    ch_1->Draw("tBeamC-tBeamS[8]>>h_d","ToF>150 && ToF<170 && af5>1000 && af5<2000 && Rxa_n[0]>=0 && Rxa_n[0]<=3 && Rya_n[0]>=8 && Rya_n[0]<=11 && test && xbt*xbt+ybt*ybt<80","same");    
+    c_3->Modified();
+    c_3->Update();
+    
+   auto legend = new TLegend(0.15,0.70,0.3,0.85);
 //    legend->SetHeader("The Legend Title","C"); // option "C" allows to center the header
     legend->SetBorderSize(0);
     legend->SetFillStyle(0);  // No fill (fully transparent)
-    legend->AddEntry(h_a,"Right Si","l");
-    legend->AddEntry(h_b,"-10 um","l");
-    legend->AddEntry(h_c,"+10 um","l");
-    legend->SetTextSize(0.045);  // Set text size
+    legend->AddEntry(h_a,"Calculated from ToF","l");
+    // legend->AddEntry(h_b,"-10 um","l");
+    legend->AddEntry(h_b,"Measured Si","l");
+    // legend->AddEntry(h_c,"+10 um","l");
+    legend->SetTextSize(0.04);  // Set text size
     legend->Draw();
+    
+    auto legend_1 = new TLegend(0.15,0.65,0.3,0.85);
+    legend_1->SetHeader("-20 #mum","C"); // option "C" allows to center the header
+    legend_1->SetBorderSize(0);
+    legend_1->SetFillStyle(0);  // No fill (fully transparent)
+    legend_1->SetTextSize(0.04);  // Set text size
+    legend_1->Draw();
+
+    auto legend_2 = new TLegend(0.15,0.65,0.3,0.85);
+    legend_2->SetHeader("+20 #mum","C"); // option "C" allows to center the header
+    legend_2->SetBorderSize(0);
+    legend_2->SetFillStyle(0);  // No fill (fully transparent)
+    legend_2->SetTextSize(0.04);  // Set text size
+    legend_2->Draw();
 }
